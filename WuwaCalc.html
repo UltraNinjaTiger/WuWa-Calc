@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Wuwa Calc</title>
+  <style>
+    /* General Styles */
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #808080; /* Light blue background */
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+
+    .container {
+      background-color: white;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      padding: 30px;
+      width: 320px;
+      text-align: center;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      font-size: 1.8em;
+      margin-bottom: 20px;
+      color: #000000; /* Blue title */
+    }
+
+    label {
+      display: block;
+      font-size: 1.1em;
+      margin-bottom: 5px;
+      color: #333;
+      width: 100%;
+      text-align: left;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      padding: 10px;
+      font-size: 1em;
+      margin-bottom: 15px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      background-color: #f9f9f9;
+    }
+
+    button {
+      width: 100%;
+      padding: 10px;
+      font-size: 1.1em;
+      background-color: #28a745; /* Green button */
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #218838; /* Darker green on hover */
+    }
+
+    .result {
+      margin-top: 20px;
+      font-size: 1.2em;
+      font-weight: bold;
+      color: #333;
+    }
+
+    .result span {
+      display: block;
+      margin-top: 10px;
+      color: #555;
+    }
+
+    .result span strong {
+      color: #007bff;
+    }
+
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <h1>Calculation Tool</h1>
+
+    <label for="Five">Five Stars:</label>
+    <input type="number" id="five" placeholder="Enter Number of Five Stars" />
+
+    <label for="weapon">Weapons:</label>
+    <input type="number" id="weapon" placeholder="Enter Number of Weapons" />
+
+    <label for="percent_loss">50/50</label>
+    <input type="number" id="percent_loss" placeholder="Enter Winrate" step="0.01" />
+
+    <button onclick="calculate()">Calculate</button>
+
+    <div class="result" id="result"></div>
+  </div>
+
+  <script>
+    function calculate() {
+      // Get the input values
+      const five = parseFloat(document.getElementById("five").value);
+      const weapon = parseFloat(document.getElementById("weapon").value);
+      const percent_loss = parseFloat(document.getElementById("percent_loss").value);
+
+      if (isNaN(five) || isNaN(weapon) || isNaN(percent_loss)) {
+        alert("Please fill in all fields correctly.");
+        return;
+      }
+
+      // Perform the calculation
+      const total_astrite = (five * (2 - (percent_loss/100)) * 12800) + (weapon * 12800);
+      const total_cash_nofee = (total_astrite / 8080) * 80;
+      const total_cash_yesfee = (total_cash_nofee * 1.042) + 0.23;
+
+      // Display the results
+      const resultDiv = document.getElementById("result");
+      resultDiv.innerHTML = `
+        <span>Astrites: <strong>${Math.floor(total_astrite)}</strong></span>
+        <span>No Fees: <strong>$${Math.floor(total_cash_nofee)}</strong></span>
+        <span>With Fees: <strong>$${Math.floor(total_cash_yesfee)}</strong></span>
+      `;
+    }
+  </script>
+
+</body>
+</html>
